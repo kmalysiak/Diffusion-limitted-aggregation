@@ -1,9 +1,9 @@
 const path = require('path');
 
 module.exports = {
-  entry: ['./src/animate.js'],
+  entry: ['./src/main.js'],
   output: {
-    filename: 'animate.js',
+    filename: 'main.js',
     path: path.resolve(__dirname, 'dist')
   },
   watch: true, 

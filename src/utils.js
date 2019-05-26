@@ -2,7 +2,7 @@
 
 export{logger}
 
-var verbose = false;;
+var verbose = true;
 
 function logger(str) {
     if (verbose)
