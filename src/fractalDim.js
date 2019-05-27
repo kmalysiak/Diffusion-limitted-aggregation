@@ -1,8 +1,7 @@
 'use strict'
 
 export {fractalDim}
-
-function fractalDim(seedx, seedy, maxR, canvasData) {
+function fractalDim(seedX, seedY, maxR,  canvasData, isAggregate) {
     //utils.logger('Run now: fractalDim');
     if (maxR < 15)
         return 0;
@@ -16,9 +15,9 @@ function fractalDim(seedx, seedy, maxR, canvasData) {
 
         var ilecz = 0;
 
-        for (var i = seedx - rad; i <= seedx + rad; i++)
-            for (var j = seedy - rad; j <= seedy + rad; j++) {
-                var squaredDistFromCenter = (i - seedx) * (i - seedx) + (j - seedy) * (j - seedy);
+        for (var i = seedX - rad; i <= seedX + rad; i++)
+            for (var j = seedY - rad; j <= seedY + rad; j++) {
+                var squaredDistFromCenter = (i - seedX) * (i - seedX) + (j - seedY) * (j - seedY);
                 if (squaredDistFromCenter <= (rad * rad) && isAggregate(i, j, canvasData))
                     ilecz++;
             }

@@ -1,21 +1,20 @@
 'use strict'
 
-let counter = 0;
-let maxRadius = 0;
-let isStop = false;
-let stickProbability = 1;
-let verticalDrift = 0.5;
-let horizontalDrift = 0.5;
-let textFile = null;
-
-
-
-export { start, pause, stopAndClearCanvas, setDriftVertical, resetDriftVertical, setDriftHorizontal, resetDriftHorizontal, setAggregationProbability };
+export { start, pause, stopAndClearCanvas};
 import * as rand from './rand';
 import * as utils from './utils';
 import * as main from './main';
 import * as fractalDim from './fractalDim';
 
+const seedSize = 2;
+const insertMargin = 10;
+const aggregatedCountPerFrame = 50;
+const domainMargin = 12;
+const maxAggregateRadius = maxInscribedCircleRadius(main.canvasWidth, main.canvasHeight);
+
+let aggregatedCount = 0;
+let currentMaxRadius = 0;
+let isStop = false;
 
 
 function start() {
@@ -31,12 +30,12 @@ function stopAndClearCanvas() {
 
     main.context.clearRect(0, 0, main.canvas.width, main.canvas.height);
     main.context.fillStyle = 'rgba(255, 0, 0, 255)';
-    main.context.arc(main.seedX, main.seedY, 3, 0, 2 * Math.PI);
+    main.context.arc(main.seedX, main.seedY, seedSize, 0, 2 * Math.PI);
     main.context.fill()
-    counter = 0;
-    maxRadius = 0;
-    document.getElementById("pts").innerHTML = counter;
-    document.getElementById("size").innerHTML = maxRadius;
+    aggregatedCount = 0;
+    currentMaxRadius = 0;
+    document.getElementById("pts").innerHTML = aggregatedCount;
+    document.getElementById("size").innerHTML = currentMaxRadius;
     document.getElementById("fdim").innerHTML = "-";
     main.canvasData = main.context.getImageData(0, 0, main.canvasWidth, main.canvasHeight);
 }
@@ -48,42 +47,43 @@ function pause() {
 
 function draw() {
     utils.logger('Run now: draw');
-    var i = 1;
-    for (i = 0; i < 50; i++) {
+  
+    for (let i = 0; i < aggregatedCountPerFrame; i++) {
 
-        var randCircularPosition = rand.getRandCircularPosition(maxRadius + 10, main.seedX, main.seedY);
-        var xStart = randCircularPosition.posX;
-        var yStart = randCircularPosition.posY;
-        var newX = 0
-        var newY = 0;
-        var isNotAggregated = true;
+        let randCircularPosition = rand.getRandUniformCircularPosition(currentMaxRadius + insertMargin, main.seedX, main.seedY);
+        let xStart = randCircularPosition.posX;
+        let yStart = randCircularPosition.posY;
+        let newX = 0
+        let newY = 0;
+        let isNotAggregated = true;
 
         while (isNotAggregated) { //dopoki nie zagreguje
 
-            if (maxRadius > 200)
+            if (currentMaxRadius > maxAggregateRadius)
                 return;
-            var jumps = rand.getRandJump(horizontalDrift, verticalDrift);
+            let jumps = rand.getRandJump(main.horizontalDrift, main.verticalDrift);
             newX = xStart + jumps.xJump;
             newY = yStart + jumps.yJump;
-            //utils.logger('from draw:' + newX, newY, maxRadius + 12, isValid(newX, newY, maxRadius + 12));
-            if (!isValid(newX, newY, maxRadius + 12)) { //jezeli chce wyskoczyć poza obszar to stoj w miejscu
+            //utils.logger('from draw:' + newX, newY, maxRadius + domainMargin, isValid(newX, newY, maxRadius + domainMargin));
+            if (!isJumpWithinDomain(newX, newY, currentMaxRadius + domainMargin)) { //jezeli chce wyskoczyć poza obszar to stoj w miejscu
                 newX = xStart;
                 newY = yStart;
             }
             else {
 
                 if (isAggregate(newX, newY, main.canvasData)) { //jeżęli chce wskoczyć tam gdzie juz jest czastka
-                    if (shouldStick()) { //jezeli ma sie przykleic
+                    if (isGetAggregated()) { //jezeli ma sie przykleic
                         drawPixel(xStart, yStart, 255, 0, 0, 255, main.canvasData);
-                        var tempmax = Math.floor(Math.sqrt((xStart - main.seedX) * (xStart - main.seedX) + (yStart - main.seedY) * (yStart - main.seedY)));
+                        let currentAggregatedRadius = coordinatedToRadius(xStart - main.seedX, yStart - main.seedY);
+                        //let tempmax = Math.floor(Math.sqrt((xStart - main.seedX) * (xStart - main.seedX) + (yStart - main.seedY) * (yStart - main.seedY)));
                         //utils.logger(newX, newY, maxRadius);
-                        if (tempmax > maxRadius) {
-                            maxRadius = tempmax;
+                        if (currentAggregatedRadius > currentMaxRadius) {
+                            currentMaxRadius = currentAggregatedRadius;
                             //utils.logger(newX, newY, maxRadius);
                         }
-                        counter++;
-                        if (counter === 500)
-                            diagnostic(main.canvasData);
+                        aggregatedCount++;
+                        // if (counter === 500)
+                        //     diagnostic(main.canvasData);
                         isNotAggregated = false;
                     }
                     else  //chce skoczyc na agregat ale nei chce sie przykleic to stoj w miejscu
@@ -104,37 +104,36 @@ function draw() {
         //utils.logger('Updatig canvas!')
 
         updateCanvas(main.context, main.canvasData);
-        fractalDim.fractalDim(main.seedX, main.seedY, maxRadius, counter, main.canvasData);
-        document.getElementById("pts").innerHTML = counter;
-        document.getElementById("size").innerHTML = maxRadius;
+        fractalDim.fractalDim(main.seedX, main.seedY, currentMaxRadius, main.canvasData, isAggregate);
+        document.getElementById("pts").innerHTML = aggregatedCount;
+        document.getElementById("size").innerHTML = currentMaxRadius;
         window.requestAnimationFrame(draw);
     }
 }
-function isValid(x, y, maxR) {
+function isJumpWithinDomain(x, y, maxR) {
     //utils.logger('Run now: isvalid');
-    var xx = x - main.seedX;
-    var yy = y - main.seedY;
-    var isValidd = ((xx * xx + yy * yy) <= maxR * maxR);
+    let relativeX = x - main.seedX;
+    let relativeY = y - main.seedY;
     //utils.logger('fromisvalid' +'x:' + xx + ' y:' + yy + ' maxR:' + maxR + ' isValid:'+  isValidd);
-    return isValidd;
+    return (coordinatedToRadius(relativeX ,relativeY) <=  maxR);
 }
 
 function isAggregate(x, y, canvasData) {
     //utils.logger('Run now: isAggregate');
-    var index = (x + y * canvasWidth) * 4;
-    return canvasData.data[index + 0] === 255;
+    let index = (x + y * main.canvasWidth) * 4;
+    return canvasData.data[index] === 255;
 }
 
-function shouldStick() {
+function isGetAggregated() {
     //utils.logger('Run now: shouldStick');
 
-    return (rand.myRand() < stickProbability);
+    return (rand.getRandUniformBool() < main.stickProbability);
 }
 
 function drawPixel(x, y, r, g, b, a, canvasData) {
     //utils.logger('Run now: drawPixel');
 
-    var index = (x + y * main.canvasWidth) * 4;
+    let index = (x + y * main.canvasWidth) * 4;
     canvasData.data[index + 0] = r;
     canvasData.data[index + 1] = g;
     canvasData.data[index + 2] = b;
@@ -146,89 +145,13 @@ function updateCanvas(ctx, canvasData) {
     ctx.putImageData(canvasData, 0, 0);
 }
 
-
-function setAggregationProbability() {
-    //utils.logger('Run now: setAggregationProbability');
-    var slider = document.getElementById("aggregationProbability");
-    var output = document.getElementById("aggregationProbabilityValue");
-    output.innerHTML = slider.value;
-    stickProbability = slider.value;
+function maxInscribedCircleRadius(x,y){
+    let minDim = Math.min(x,y);
+    return (coordinatedToRadius(minDim));
 }
 
-function setDriftHorizontal() {
-    //utils.logger('Run now: setDriftHorizontal');
-    var slider = document.getElementById("driftHorizontal");
-    var output = document.getElementById("driftHorizontalValue");
-    output.innerHTML = slider.value;
-    horizontalDrift = slider.value;
+function coordinatedToRadius(x, y){
+    return  Math.floor(Math.sqrt(x*x + y*y));
+  
 }
-
-function setDriftVertical() {
-    //utils.logger('Run now: setDriftVertical');
-    var slider = document.getElementById("driftVertical");
-    var output = document.getElementById("driftVerticalValue");
-    output.innerHTML = slider.value;
-    verticalDrift = slider.value;
-}
-
-function resetDriftVertical() {
-    //utils.logger('Run now: resetDriftVertical');
-    var slider = document.getElementById("driftVertical");
-    var output = document.getElementById("driftVerticalValue");
-    output.innerHTML = 0.5;
-    verticalDrift = 0.5;
-    slider.value = 0.5;
-}
-
-function resetDriftHorizontal() {
-    //utils.logger('Run now: resetDriftHorizontal');
-    var slider = document.getElementById("driftHorizontal");
-    var output = document.getElementById("driftHorizontalValue");
-    output.innerHTML = 0.5;
-    verticalDrift = 0.5;
-    slider.value = 0.5;
-}
-
-
-function diagnostic(canvasData) {
-    //utils.logger('Run now: diagnostic');
-    var content = "";
-    for (var i = 0; i < 800; i++) {
-        var line = [];
-        for (var j = 0; j < 800; j++) {
-            if (isAggregate(i, j, canvasData))
-                line.push(1);
-            else
-                line.push(0);
-        }
-
-        content += line.join(",");
-        content += "\n"
-    }
-
-    var data = new Blob([content], { type: 'text/plain' });
-    if (textFile !== null) {
-        window.URL.revokeObjectURL(textFile);
-    }
-
-    textFile = window.URL.createObjectURL(data);
-    var link = document.getElementById('downloadlink');
-    link.href = textFile;
-    link.style.display = 'block';
-
-};
-
-
-
-// function shiftEngineGen() {
-//     var maxint = 2147483647;
-//     var raw = myRand() * maxint;
-//     return function getRandBool() {
-//         if (raw === 0) {
-//             raw = myRand() * maxint;
-//         }
-//         raw = raw >> 1;
-//         return raw & 1;
-//     }
-// }
 
