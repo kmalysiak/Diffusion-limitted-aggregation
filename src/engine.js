@@ -5,6 +5,7 @@ import * as rand from './rand';
 import * as utils from './utils';
 import * as main from './main';
 import * as fractalDim from './fractalDim';
+import * as commonClasses from './commonClasses';
 
 const seedSize = 2;
 const insertMargin = 10;
@@ -47,12 +48,16 @@ function pause() {
 
 function draw() {
     utils.logger('Run now: draw');
+    let insertionPoint = new commonClasses.Point(0,0);
+    let newPostition = new commonClasses.Point(0,0);
   
     for (let i = 0; i < aggregatedCountPerFrame; i++) {
 
         let randCircularPosition = rand.getRandUniformCircularPosition(currentMaxRadius + insertMargin, main.seedX, main.seedY);
         let xStart = randCircularPosition.posX;
         let yStart = randCircularPosition.posY;
+        insertionPoint.x = randCircularPosition.posX;
+        insertionPoint.y = randCircularPosition.posY;
         let newX = 0
         let newY = 0;
         let isNotAggregated = true;
@@ -64,8 +69,10 @@ function draw() {
             let jumps = rand.getRandJump(main.horizontalDrift, main.verticalDrift);
             newX = xStart + jumps.xJump;
             newY = yStart + jumps.yJump;
+            newPostition.x = xStart + jumps.xJump;
+            newPostition.y = yStart + jumps.yJump;
             //utils.logger('from draw:' + newX, newY, maxRadius + domainMargin, isValid(newX, newY, maxRadius + domainMargin));
-            if (!isJumpWithinDomain(newX, newY, currentMaxRadius + domainMargin)) { //jezeli chce wyskoczyć poza obszar to stoj w miejscu
+            if (!isJumpWithinDomain(newPostition, currentMaxRadius + domainMargin)) { //jezeli chce wyskoczyć poza obszar to stoj w miejscu
                 newX = xStart;
                 newY = yStart;
             }
@@ -110,10 +117,10 @@ function draw() {
         window.requestAnimationFrame(draw);
     }
 }
-function isJumpWithinDomain(x, y, maxR) {
+function isJumpWithinDomain(newPostion, maxR) {
     //utils.logger('Run now: isvalid');
-    let relativeX = x - main.seedX;
-    let relativeY = y - main.seedY;
+    let relativeX = newPostion.x - main.seedX;
+    let relativeY = newPostion.y - main.seedY;
     //utils.logger('fromisvalid' +'x:' + xx + ' y:' + yy + ' maxR:' + maxR + ' isValid:'+  isValidd);
     return (coordinatedToRadius(relativeX ,relativeY) <=  maxR);
 }

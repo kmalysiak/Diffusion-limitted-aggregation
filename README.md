@@ -4,19 +4,36 @@ This project is a numerical simulation of Diffusion Limited Aggregation process 
 Proces simulates movement of random walking particles and their aggregation. Process starts with a seed located at the center.
 A particle enters the scene and starts random walking unitl it encounters the seed. It then gets immobilised and another particle
 is placed and allowed to random walk. Once it encounters the seed or a previosuly aggregated particles it aggregates and becomes
-immobilised. Process repeates what leads to growth of an aggregate with fractal dimension approx. 1.6.
+immobilised. Process repeats what leads to growth of an aggregate with fractal dimension approx. 1.6.
 
 ## Getting Started
 
 ### Installing
 
+* download repo
+* install node
+* install webpack
+* install babel
+* install webpack-dev-server for convenient debug
+
 ## Deployment
+
+```console
+npm run-script build
+```
+
+```console
+webpack-dev-server
+```
 
 ## Contributing
 
 ## Authors
 
+Krzysztof Małysiak
+
 ## License
+
 Copyright (c) [2019] [Krysztof Małysiak]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

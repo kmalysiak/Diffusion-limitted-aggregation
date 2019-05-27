@@ -16,6 +16,7 @@ let horizontalDrift = defaultDrift;
 import * as engine from './engine';
 import * as utils from './utils';
 import * as rand from './rand';
+import * as commonClasses from './commonClasses';
 
 export {context, canvas, canvasWidth, canvasHeight, canvasData, seedX, seedY, horizontalDrift, verticalDrift, stickProbability};
 
@@ -38,7 +39,6 @@ function init() {
     context.fill()
     canvasData = context.getImageData(0, 0, canvasWidth, canvasHeight);
     rand.initRandNum();
-
     addHandlers();
     
 }
