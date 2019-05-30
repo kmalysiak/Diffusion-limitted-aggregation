@@ -5,21 +5,24 @@ import * as rand from './rand';
 import * as utils from './utils';
 import * as main from './main';
 import * as fractalDim from './fractalDim';
-import * as commonClasses from './commonClasses';
+import {Point} from './commonClasses';
 
 const seedSize = 2;
 const insertMargin = 10;
 const aggregatedCountPerFrame = 50;
 const domainMargin = 12;
-const maxAggregateRadius = maxInscribedCircleRadius(main.canvasWidth, main.canvasHeight);
+
 
 let aggregatedCount = 0;
 let currentMaxRadius = 0;
 let isStop = false;
 
+let cdt;
+
 
 function start() {
     utils.logger('Run now: start');
+    cdt = main.context.getImageData(0, 0, main.canvasWidth, main.canvasHeight);
     isStop = false;
     draw();
 
@@ -38,7 +41,7 @@ function stopAndClearCanvas() {
     document.getElementById("pts").innerHTML = aggregatedCount;
     document.getElementById("size").innerHTML = currentMaxRadius;
     document.getElementById("fdim").innerHTML = "-";
-    main.canvasData = main.context.getImageData(0, 0, main.canvasWidth, main.canvasHeight);
+    cdt = main.context.getImageData(0, 0, main.canvasWidth, main.canvasHeight);
 }
 
 function pause() {
@@ -48,39 +51,36 @@ function pause() {
 
 function draw() {
     utils.logger('Run now: draw');
-    let insertionPoint = new commonClasses.Point(0,0);
-    let newPostition = new commonClasses.Point(0,0);
+
   
     for (let i = 0; i < aggregatedCountPerFrame; i++) {
 
+        let newPostition = new Point(0,0);
         let randCircularPosition = rand.getRandUniformCircularPosition(currentMaxRadius + insertMargin, main.seedX, main.seedY);
-        let xStart = randCircularPosition.posX;
-        let yStart = randCircularPosition.posY;
-        insertionPoint.x = randCircularPosition.posX;
-        insertionPoint.y = randCircularPosition.posY;
-        let newX = 0
-        let newY = 0;
+        let xStart = randCircularPosition.x;
+        let yStart = randCircularPosition.y; 
         let isNotAggregated = true;
 
         while (isNotAggregated) { //dopoki nie zagreguje
 
-            if (currentMaxRadius > maxAggregateRadius)
+            if (currentMaxRadius > main.maxAggregateRadius)
                 return;
             let jumps = rand.getRandJump(main.horizontalDrift, main.verticalDrift);
-            newX = xStart + jumps.xJump;
-            newY = yStart + jumps.yJump;
+
+
             newPostition.x = xStart + jumps.xJump;
             newPostition.y = yStart + jumps.yJump;
+
             //utils.logger('from draw:' + newX, newY, maxRadius + domainMargin, isValid(newX, newY, maxRadius + domainMargin));
             if (!isJumpWithinDomain(newPostition, currentMaxRadius + domainMargin)) { //jezeli chce wyskoczyć poza obszar to stoj w miejscu
-                newX = xStart;
-                newY = yStart;
+                newPostition.x = xStart;
+                newPostition.y = yStart;
             }
             else {
 
-                if (isAggregate(newX, newY, main.canvasData)) { //jeżęli chce wskoczyć tam gdzie juz jest czastka
+                if (isAggregate(newPostition, cdt)) { //jeżęli chce wskoczyć tam gdzie juz jest czastka
                     if (isGetAggregated()) { //jezeli ma sie przykleic
-                        drawPixel(xStart, yStart, 255, 0, 0, 255, main.canvasData);
+                        drawPixel(xStart, yStart, 255, 0, 0, 255, cdt);
                         let currentAggregatedRadius = coordinatedToRadius(xStart - main.seedX, yStart - main.seedY);
                         //let tempmax = Math.floor(Math.sqrt((xStart - main.seedX) * (xStart - main.seedX) + (yStart - main.seedY) * (yStart - main.seedY)));
                         //utils.logger(newX, newY, maxRadius);
@@ -90,19 +90,19 @@ function draw() {
                         }
                         aggregatedCount++;
                         // if (counter === 500)
-                        //     diagnostic(main.canvasData);
+                        //     diagnostic(cdt);
                         isNotAggregated = false;
                     }
                     else  //chce skoczyc na agregat ale nei chce sie przykleic to stoj w miejscu
                     {
-                        newX = xStart;
-                        newY = yStart;
+                        newPostition.x = xStart;
+                        newPostition.y = yStart;
                     }
                 }
 
                 else { //nie ma agrgatu i nie chce wyskoczyć poza obszar
-                    xStart = newX;
-                    yStart = newY;
+                    xStart = newPostition.x;
+                    yStart = newPostition.y;
                 }
             }
         }
@@ -110,8 +110,8 @@ function draw() {
     if (!isStop) {
         //utils.logger('Updatig canvas!')
 
-        updateCanvas(main.context, main.canvasData);
-        fractalDim.fractalDim(main.seedX, main.seedY, currentMaxRadius, main.canvasData, isAggregate);
+        updateCanvas(main.context, cdt);
+        fractalDim.fractalDim(main.seedX, main.seedY, currentMaxRadius, cdt, isAggregate);
         document.getElementById("pts").innerHTML = aggregatedCount;
         document.getElementById("size").innerHTML = currentMaxRadius;
         window.requestAnimationFrame(draw);
@@ -125,9 +125,9 @@ function isJumpWithinDomain(newPostion, maxR) {
     return (coordinatedToRadius(relativeX ,relativeY) <=  maxR);
 }
 
-function isAggregate(x, y, canvasData) {
+function isAggregate(position, canvasData) {
     //utils.logger('Run now: isAggregate');
-    let index = (x + y * main.canvasWidth) * 4;
+    let index = (position.x + position.y * main.canvasWidth) * 4;
     return canvasData.data[index] === 255;
 }
 

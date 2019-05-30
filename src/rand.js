@@ -2,6 +2,7 @@
 
 export { initRandNum, getRandUniformBool, getRandJump, getRandUniformCircularPosition }
 import * as utils from './utils';
+import{Point} from './commonClasses';
 
 let randBufferSize = 100000;
 let currentRand = 0;
@@ -32,11 +33,8 @@ function getRandUniformRadian() {
 function getRandUniformCircularPosition(radius, centerX, centerY) {
     //utils.logger('Run now: getCircularPositionX');
     let randRadian = getRandUniformRadian();
-
-    return {
-        posX: Math.floor(radius * Math.cos(randRadian)) + centerX,
-        posY: Math.floor(radius * Math.sin(randRadian)) + centerY
-    };
+    let output = new Point(Math.floor(radius * Math.cos(randRadian)) + centerX, Math.floor(radius * Math.sin(randRadian)) + centerY);
+    return output;
 }
 
 

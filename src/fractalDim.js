@@ -1,5 +1,7 @@
 'use strict'
 
+import {Point} from './commonClasses';
+
 export {fractalDim}
 function fractalDim(seedX, seedY, maxR,  canvasData, isAggregate) {
     //utils.logger('Run now: fractalDim');
@@ -18,7 +20,8 @@ function fractalDim(seedX, seedY, maxR,  canvasData, isAggregate) {
         for (var i = seedX - rad; i <= seedX + rad; i++)
             for (var j = seedY - rad; j <= seedY + rad; j++) {
                 var squaredDistFromCenter = (i - seedX) * (i - seedX) + (j - seedY) * (j - seedY);
-                if (squaredDistFromCenter <= (rad * rad) && isAggregate(i, j, canvasData))
+                let pt = new Point(i,j);
+                if (squaredDistFromCenter <= (rad * rad) && isAggregate(pt, canvasData))
                     ilecz++;
             }
 

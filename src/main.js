@@ -1,6 +1,5 @@
 'use strict'
 let canvas;
-let canvasData
 let context;
 let canvasWidth;
 let canvasHeight;
@@ -8,6 +7,7 @@ let seedX;
 let seedY;
 const defaultDrift = 0.5;
 const defaultStickProbability = 1;
+let maxAggregateRadius;
 let stickProbability = defaultStickProbability;
 let verticalDrift = defaultDrift;
 let horizontalDrift = defaultDrift;
@@ -16,9 +16,9 @@ let horizontalDrift = defaultDrift;
 import * as engine from './engine';
 import * as utils from './utils';
 import * as rand from './rand';
-import * as commonClasses from './commonClasses';
+import {Point}  from './commonClasses';
 
-export {context, canvas, canvasWidth, canvasHeight, canvasData, seedX, seedY, horizontalDrift, verticalDrift, stickProbability};
+export {context, canvas, canvasWidth, canvasHeight, seedX, seedY, horizontalDrift, verticalDrift, stickProbability, maxAggregateRadius};
 
 document.addEventListener("DOMContentLoaded",init);
 
@@ -37,7 +37,7 @@ function init() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.arc(canvasWidth/2, canvasHeight/2, 3, 0, 2 * Math.PI);
     context.fill()
-    canvasData = context.getImageData(0, 0, canvasWidth, canvasHeight);
+    maxAggregateRadius = Math.floor(Math.sqrt(canvasWidth*canvasWidth + canvasHeight*canvasHeight));
     rand.initRandNum();
     addHandlers();
     
