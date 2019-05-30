@@ -1,9 +1,9 @@
 # Diffusion Limited Growth
 
-This project is a numerical simulation of Diffusion Limited Aggregation process (abbrev. as DLA). 
-Proces simulates movement of random walking particles and their aggregation. Process starts with a seed located at the center.
-A particle enters the scene and starts random walking unitl it encounters the seed. It then gets immobilised and another particle
-is placed and allowed to random walk. Once it encounters the seed or a previosuly aggregated particles it aggregates and becomes
+This project is a numerical simulation of Diffusion Limited Aggregation process (abbrev. as DLA).
+Proces simulates movement of random walking particles and their aggregation on a lattice. Process starts with a seed located at the center.
+A particle enters the scene and starts random walking until it encounters the seed. It then gets immobilised and another particle
+is placed and allowed to random walk. Once it encounters the seed or a previously aggregated particles it aggregates and becomes
 immobilised. Process repeats what leads to growth of an aggregate with fractal dimension approx. 1.6.
 
 ## Getting Started
@@ -16,15 +16,23 @@ immobilised. Process repeats what leads to growth of an aggregate with fractal d
 * install babel
 * install webpack-dev-server for convenient debug
 
-## Deployment
+## Development
+
+Run
+
+```console
+webpack-dev-server
+```
+
+to start a webpack-dev-server for easy development. To a running instance of dev-server you can attach a debug from Visual Studio for real-time debug / breakpoint / check variables.
+
+Run
 
 ```console
 npm run-script build
 ```
 
-```console
-webpack-dev-server
-```
+to build a project into deployment folder and keep webpack running in a mode of constant check of changes to source files and real-time on-change deployment.
 
 ## Contributing
 
