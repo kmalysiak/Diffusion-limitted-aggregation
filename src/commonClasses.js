@@ -1,35 +1,46 @@
 'use strict'
 
-export {Point};
+export { Point };
 
-class  Point{
-    constructor(x,y){
+class Point {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
     }
 
-    add(pt){
+    add(pt) {
         this.x += pt.x;
         this.y += pt.y;
     }
-    addPair(x,y){
+    addPair(x, y) {
         this.x += x;
         this.y += y;
     }
 
-    subs(pt){
+    subs(pt) {
         this.x -= pt.x;
         this.y -= pt.y;
     }
 
-    copy(pt){
+    copy(pt) {
         this.x = pt.x;
         this.y = pt.y;
     }
 
-    copyPair(x,y){
+    copyPair(x, y) {
         this.x = x;
         this.y = y;
+    }
+
+    sum(a, b) {
+        this.x = a.x + b.x
+        this.y = a.y + b.y;
+    }
+
+    distance(pt){
+        let dx = this.x - pt.x;
+        let dy = this.y - pt.y;
+        return  Math.floor(Math.sqrt(dx*dx + dy*dy));
     }
 
 }

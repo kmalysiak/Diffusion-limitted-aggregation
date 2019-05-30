@@ -59,20 +59,13 @@ function getVerticalRandJump(verticalDrift) {
 
 function getRandJump(horizontalDrift, verticalDrift) {
     //utils.logger('Run now: getRandJump');
-    let xJump = 0;
-    let yJump = 0;
+    let jump = new Point(0,0);
 
     if (getRandUniformBool() < 0.5) {
-        xJump = getHorizontalRandJump(horizontalDrift);
+        jump.x = getHorizontalRandJump(horizontalDrift);
     }
     else {
-        yJump = getVerticalRandJump(verticalDrift);
+        jump.y = getVerticalRandJump(verticalDrift);
     }
-
-    let jumps = {
-        xJump: xJump,
-        yJump: yJump
-    };
-
-    return jumps;
+    return jump;
 }

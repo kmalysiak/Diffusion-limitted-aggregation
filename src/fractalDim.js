@@ -4,10 +4,8 @@ import {Point} from './commonClasses';
 
 export {fractalDim}
 function fractalDim(seedX, seedY, maxR,  canvasData, isAggregate) {
-    //utils.logger('Run now: fractalDim');
     if (maxR < 15)
         return 0;
-    //utils.logger(maxR);
     var minR = 5
     maxR = Math.floor(maxR / 2);
 
@@ -31,13 +29,10 @@ function fractalDim(seedX, seedY, maxR,  canvasData, isAggregate) {
 
     var ans = linearRegression(aggregateMass, aggregateSize);
     document.getElementById("fdim").innerHTML = Math.round(ans.slope * 1000) / 1000;
-    //utils.logger(ans.slope, ans.r2);
-
 }
 
 
 var linearRegression = function (y, x) {
-    //utils.logger('Run now: linearRegression');
     var lr = {};
     var n = y.length;
     var sum_x = 0;
