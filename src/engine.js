@@ -7,9 +7,9 @@ import * as fractalDim from './fractalDim';
 import { Point } from './commonClasses';
 
 const seedSize = 2;
-const insertMargin = 5;
-const aggregatedCountPerFrame = 50;
-const domainMargin = 7;
+const insertMargin = 3;
+const aggregatedCountPerFrame = 70;
+const domainMargin = 5;
 
 
 let totalAggregatedCount = 0;
@@ -37,7 +37,7 @@ function stopAndClearCanvas() {
     document.getElementById("pts").innerHTML = totalAggregatedCount;
     document.getElementById("size").innerHTML = currentMaxRadius;
     document.getElementById("fdim").innerHTML = "-";
-    cdt = main.context.getImageData(0, 0,main.canvasSize.xh, main.canvasSize.y);
+    cdt = main.context.getImageData(0, 0, main.canvasSize.xh, main.canvasSize.y);
 }
 
 function pause() {
@@ -53,7 +53,7 @@ function draw() {
         let randCircularPosition = rand.getRandUniformCircularPosition(currentMaxRadius + insertMargin, main.seed);
         startPosition.copy(randCircularPosition);
         let isNotAggregated = true;
-        
+
 
         while (isNotAggregated) {
 
@@ -75,7 +75,7 @@ function draw() {
 
                         if (aggregatedPointRadiuses[i] > currentMaxRadius)
                             currentMaxRadius = aggregatedPointRadiuses[i];
-                        
+
                         totalAggregatedCount++;
                         isNotAggregated = false;
                     }
@@ -99,7 +99,7 @@ function draw() {
     }
 }
 function isJumpWithinDomain(newPosition, maxR, seed) {
-    return (newPosition.distance(seed) <= maxR);
+    return (newPosition.distanceSquare(seed) <= maxR * maxR);
 }
 
 function isAggregate(position, canvasData, canvasSize) {

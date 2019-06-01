@@ -5,8 +5,8 @@ const defaultStickProbability = 1;
 
 let canvas;
 let context;
-let canvasSize = new Point(0,0);
-let seed = new Point(0,0);
+let canvasSize = new Point(0, 0);
+let seed = new Point(0, 0);
 let maxAggregateRadius;
 let stickProbability = defaultStickProbability;
 let verticalDrift = defaultDrift;
@@ -15,14 +15,14 @@ let horizontalDrift = defaultDrift;
 
 import * as engine from './engine';
 import * as rand from './rand';
-import {Point}  from './commonClasses';
+import { Point } from './commonClasses';
 
-export {context, canvas, canvasSize, seed, horizontalDrift, verticalDrift, stickProbability, maxAggregateRadius};
+export { context, canvas, canvasSize, seed, horizontalDrift, verticalDrift, stickProbability, maxAggregateRadius };
 
-document.addEventListener("DOMContentLoaded",init);
+document.addEventListener("DOMContentLoaded", init);
 
-function init() {  
-    canvas = document.getElementById("canvas"); 
+function init() {
+    canvas = document.getElementById("canvas");
     canvasSize.x = canvas.width;
     canvasSize.y = canvas.height;
     seed.x = Math.floor(canvasSize.x / 2);
@@ -30,15 +30,15 @@ function init() {
     context = canvas.getContext("2d");
     context.fillStyle = 'rgba(255, 0, 0, 255)';
     context.clearRect(0, 0, canvasSize.x, canvasSize.y);
-    context.arc(canvasSize.x/2, canvasSize.y/2, 3, 0, 2 * Math.PI);
+    context.arc(canvasSize.x / 2, canvasSize.y / 2, 3, 0, 2 * Math.PI);
     context.fill()
-    maxAggregateRadius = Math.floor(Math.sqrt(canvasSize.x*canvasSize.x + canvasSize.y*canvasSize.y));
+    maxAggregateRadius = Math.floor(Math.sqrt(canvasSize.x * canvasSize.x + canvasSize.y * canvasSize.y));
     rand.initRandNum();
     addHandlers();
-    
+
 }
 
-function addHandlers(){
+function addHandlers() {
     document.getElementById("driftVertical").addEventListener("input", setDriftVertical);
     document.getElementById("driftVertical").addEventListener("dblclick", resetDriftVertical);
 
@@ -78,14 +78,14 @@ function resetDriftVertical() {
     var slider = document.getElementById("driftVertical");
     var output = document.getElementById("driftVerticalValue");
     output.innerHTML = defaultDrift;
-    verticalDrift =defaultDrift;
+    verticalDrift = defaultDrift;
     slider.value = defaultDrift;
 }
 
 function resetDriftHorizontal() {
     var slider = document.getElementById("driftHorizontal");
     var output = document.getElementById("driftHorizontalValue");
-    output.innerHTML =defaultDrift;
+    output.innerHTML = defaultDrift;
     verticalDrift = defaultDrift;
     slider.value = defaultDrift;
 }

@@ -1,7 +1,5 @@
 'use strict'
 
-import { COPYFILE_FICLONE_FORCE } from "constants";
-
 export { Point };
 
 class Point {

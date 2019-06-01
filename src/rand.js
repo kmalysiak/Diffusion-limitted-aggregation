@@ -1,12 +1,11 @@
 'use strict'
 
 export { initRandNum, getRandUniformBool, getRandJump, getRandUniformCircularPosition }
-import{Point} from './commonClasses';
+import { Point } from './commonClasses';
 
-let randBufferSize = 100000;
+const randBufferSize = 100000;
 let currentRand = 0;
 let randNum = Array(randBufferSize);
-
 const unitJump = 1;
 
 function initRandNum() {
@@ -24,12 +23,12 @@ function getRandUniformBool() {
 }
 
 function getRandUniformRadian() {
-    return ((getRandUniformBool() * Math.PI * 2.0));
+    return getRandUniformBool() * Math.PI * 2.0;
 }
 
 function getRandUniformCircularPosition(radius, seed) {
     let randRadian = getRandUniformRadian();
-    return  new Point(Math.floor(radius * Math.cos(randRadian)) + seed.x, Math.floor(radius * Math.sin(randRadian)) + seed.y);
+    return new Point(Math.floor(radius * Math.cos(randRadian)) + seed.x, Math.floor(radius * Math.sin(randRadian)) + seed.y);
 }
 
 
@@ -46,7 +45,7 @@ function getVerticalRandJump(verticalDrift) {
 }
 
 function getRandJump(horizontalDrift, verticalDrift) {
-    let jump = new Point(0,0);
+    let jump = new Point(0, 0);
 
     if (getRandUniformBool() < 0.5) {
         jump.x = getHorizontalRandJump(horizontalDrift);
