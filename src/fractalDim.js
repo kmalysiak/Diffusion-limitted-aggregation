@@ -1,58 +1,56 @@
 'use strict'
 
-import {Point} from './commonClasses';
+let mass = new Array(800).fill(0);
 
-export {fractalDim}
-function fractalDim(seedX, seedY, maxR,  canvasData, isAggregate) {
-    if (maxR < 15)
-        return 0;
-    var minR = 5
-    maxR = Math.floor(maxR / 2);
+export { fractalDim2 }
 
-    var aggregateSize = [];
-    var aggregateMass = [];
-    for (var rad = minR; rad <= maxR; rad++) {
+const isR2Calculation = false;
 
-        var ilecz = 0;
+function fractalDim2(newParticleDist, maxR) {
+    for (let i = 0; i < newParticleDist.length; i++)
+        mass[newParticleDist[i]]++;
 
-        for (var i = seedX - rad; i <= seedX + rad; i++)
-            for (var j = seedY - rad; j <= seedY + rad; j++) {
-                var squaredDistFromCenter = (i - seedX) * (i - seedX) + (j - seedY) * (j - seedY);
-                let pt = new Point(i,j);
-                if (squaredDistFromCenter <= (rad * rad) && isAggregate(pt, canvasData))
-                    ilecz++;
-            }
-
-        aggregateSize.push(Math.log10(rad));
-        aggregateMass.push(Math.log10(ilecz));
+    let logSize = [];
+    let logMass = [];
+    let counter = 0;
+    let totalMass = 0;
+    for (let i = 1; i < maxR; i++) {
+        if (mass[i] > 0) {
+            totalMass += mass[i]
+            logSize[counter] = Math.log(i);
+            logMass[counter] = Math.log(totalMass);
+            counter++;
+        }
     }
-
-    var ans = linearRegression(aggregateMass, aggregateSize);
+    let ans = linearRegression(logMass, logSize);
     document.getElementById("fdim").innerHTML = Math.round(ans.slope * 1000) / 1000;
 }
 
+function linearRegression(y, x) {
 
-var linearRegression = function (y, x) {
-    var lr = {};
-    var n = y.length;
-    var sum_x = 0;
-    var sum_y = 0;
-    var sum_xy = 0;
-    var sum_xx = 0;
-    var sum_yy = 0;
 
-    for (var i = 0; i < y.length; i++) {
+
+    let lr = {};
+    let n = y.length;
+    let sum_x = 0;
+    let sum_y = 0;
+    let sum_xy = 0;
+    let sum_xx = 0;
+    let sum_yy = 0;
+
+    for (let i = 0; i < y.length; i++) {
 
         sum_x += x[i];
         sum_y += y[i];
+
         sum_xy += (x[i] * y[i]);
         sum_xx += (x[i] * x[i]);
         sum_yy += (y[i] * y[i]);
     }
-
-    lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
+    if (isR2Calculation) {
+        lr['r2'] = Math.pow((n * sum_xy - sum_x * sum_y) / Math.sqrt((n * sum_xx - sum_x * sum_x) * (n * sum_yy - sum_y * sum_y)), 2);
+    }
+     lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
     lr['intercept'] = (sum_y - lr.slope * sum_x) / n;
-    lr['r2'] = Math.pow((n * sum_xy - sum_x * sum_y) / Math.sqrt((n * sum_xx - sum_x * sum_x) * (n * sum_yy - sum_y * sum_y)), 2);
-
     return lr
 }

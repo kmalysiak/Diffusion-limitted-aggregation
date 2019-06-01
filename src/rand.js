@@ -26,39 +26,28 @@ function getRandUniformBool() {
 }
 
 function getRandUniformRadian() {
-    //utils.logger('Run now: getRandRadian');
     return ((getRandUniformBool() * Math.PI * 2.0));
 }
 
-function getRandUniformCircularPosition(radius, centerX, centerY) {
-    //utils.logger('Run now: getCircularPositionX');
+function getRandUniformCircularPosition(radius, seed) {
     let randRadian = getRandUniformRadian();
-    let output = new Point(Math.floor(radius * Math.cos(randRadian)) + centerX, Math.floor(radius * Math.sin(randRadian)) + centerY);
-    return output;
+    return  new Point(Math.floor(radius * Math.cos(randRadian)) + seed.x, Math.floor(radius * Math.sin(randRadian)) + seed.y);
 }
 
 
 function getHorizontalRandJump(horizontalDrift) {
-    utils.logger('Run now: getHorizontalRandJump');
-
-    let prob = getRandUniformBool();
-    //utils.logger('HORIZONTAl: prob:' + prob + ' horDrift:' + horizontalDrift);
-    if (prob > horizontalDrift) return unitJump;
+    if (getRandUniformBool() > horizontalDrift) return unitJump;
     else
         return -unitJump;
 }
 
 function getVerticalRandJump(verticalDrift) {
-    //utils.logger('Run now: getVerticalRandJump');
-    let prob = getRandUniformBool();
-    //utils.logger('Vertical: prob:' + prob + ' verDrift:' + verticalDrift);
-    if (prob > verticalDrift) return unitJump;
+    if (getRandUniformBool() > verticalDrift) return unitJump;
     else
         return -unitJump;
 }
 
 function getRandJump(horizontalDrift, verticalDrift) {
-    //utils.logger('Run now: getRandJump');
     let jump = new Point(0,0);
 
     if (getRandUniformBool() < 0.5) {
