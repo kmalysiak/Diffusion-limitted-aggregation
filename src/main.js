@@ -14,7 +14,6 @@ let horizontalDrift = defaultDrift;
 
 
 import * as engine from './engine';
-import * as utils from './utils';
 import * as rand from './rand';
 import {Point}  from './commonClasses';
 
@@ -23,7 +22,6 @@ export {context, canvas, canvasSize, seed, horizontalDrift, verticalDrift, stick
 document.addEventListener("DOMContentLoaded",init);
 
 function init() {  
-    utils.logger('Run now: init');
     canvas = document.getElementById("canvas"); 
     canvasSize.x = canvas.width;
     canvasSize.y = canvas.height;

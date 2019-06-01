@@ -1,7 +1,6 @@
 'use strict'
 
 export { initRandNum, getRandUniformBool, getRandJump, getRandUniformCircularPosition }
-import * as utils from './utils';
 import{Point} from './commonClasses';
 
 let randBufferSize = 100000;
@@ -14,7 +13,6 @@ function initRandNum() {
     for (let i = 0; i < randBufferSize; i++) {
         randNum[i] = Math.random();
     }
-    utils.logger('Init rand num is finished!');
 }
 
 function getRandUniformBool() {

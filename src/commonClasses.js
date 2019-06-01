@@ -1,5 +1,7 @@
 'use strict'
 
+import { COPYFILE_FICLONE_FORCE } from "constants";
+
 export { Point };
 
 class Point {
@@ -37,10 +39,13 @@ class Point {
         this.y = a.y + b.y;
     }
 
-    distance(pt){
+    distanceSquare(pt){
         let dx = this.x - pt.x;
         let dy = this.y - pt.y;
-        return  Math.floor(Math.sqrt(dx*dx + dy*dy));
+        return  (dx*dx + dy*dy);
+    }
+    distance(pt){
+        return Math.floor(Math.sqrt(this.distanceSquare(pt)));
     }
 
 }
