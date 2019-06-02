@@ -50,7 +50,7 @@ function linearRegression(y, x) {
     if (isR2Calculation) {
         lr['r2'] = Math.pow((n * sum_xy - sum_x * sum_y) / Math.sqrt((n * sum_xx - sum_x * sum_x) * (n * sum_yy - sum_y * sum_y)), 2);
     }
-     lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
+    lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
     lr['intercept'] = (sum_y - lr.slope * sum_x) / n;
     return lr
 }

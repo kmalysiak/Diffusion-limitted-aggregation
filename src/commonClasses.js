@@ -37,12 +37,12 @@ class Point {
         this.y = a.y + b.y;
     }
 
-    distanceSquare(pt){
+    distanceSquare(pt) {
         let dx = this.x - pt.x;
         let dy = this.y - pt.y;
-        return  (dx*dx + dy*dy);
+        return (dx * dx + dy * dy);
     }
-    distance(pt){
+    distance(pt) {
         return Math.floor(Math.sqrt(this.distanceSquare(pt)));
     }
 

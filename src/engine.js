@@ -8,18 +8,20 @@ import { Point } from './commonClasses';
 
 const seedSize = 2;
 const insertMargin = 3;
-const aggregatedCountPerFrame = 70;
+const aggregatedCountPerFrame = 20;
 const domainMargin = 5;
-
+const maxStepsForParticle = 1000000;
 
 let totalAggregatedCount = 0;
 let currentMaxRadius = 0;
+let maxAggregateRadius;
 let isStop = false;
 let cdt;
 
 
 function start() {
     cdt = main.context.getImageData(0, 0, main.canvasSize.x, main.canvasSize.y);
+    maxAggregateRadius = Math.floor(Math.min(main.canvasSize.x, main.canvasSize.y) / 2);
     isStop = false;
     draw();
 
@@ -46,6 +48,8 @@ function pause() {
 
 function draw() {
     let aggregatedPointRadiuses = [];
+
+    //let timeouts = [];
     for (let i = 0; i < aggregatedCountPerFrame; i++) {
 
         let newPosition = new Point(0, 0);
@@ -54,11 +58,18 @@ function draw() {
         startPosition.copy(randCircularPosition);
         let isNotAggregated = true;
 
+        for (let doneSteps = 0; doneSteps < maxStepsForParticle; doneSteps++) {
 
-        while (isNotAggregated) {
+            if (!isNotAggregated)
+                break;
+            if (currentMaxRadius >= maxAggregateRadius) {
+                isStop = true;
+                break;
+            }
 
             if (currentMaxRadius > main.maxAggregateRadius)
                 return;
+
             let jump = rand.getRandJump(main.horizontalDrift, main.verticalDrift);
             newPosition.sum(startPosition, jump)
 
@@ -83,7 +94,6 @@ function draw() {
                         newPosition.copy(startPosition);
                     }
                 }
-
                 else {
                     startPosition.copy(newPosition);
                 }
@@ -97,6 +107,7 @@ function draw() {
         document.getElementById("size").innerHTML = currentMaxRadius;
         window.requestAnimationFrame(draw);
     }
+
 }
 function isJumpWithinDomain(newPosition, maxR, seed) {
     return (newPosition.distanceSquare(seed) <= maxR * maxR);
