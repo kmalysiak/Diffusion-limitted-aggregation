@@ -1,12 +1,17 @@
 'use strict'
 
-let mass = new Array(800).fill(0);
+let mass;
 
 export { fractalDim2 }
 
 const isR2Calculation = false;
 
-function fractalDim2(newParticleDist, maxR) {
+function fractalDim2(newParticleDist, maxR, maxSize) {
+
+    if(mass === undefined){
+        mass = new Array(maxSize).fill(0);
+    }
+
     for (let i = 0; i < newParticleDist.length; i++)
         mass[newParticleDist[i]]++;
 
@@ -22,13 +27,10 @@ function fractalDim2(newParticleDist, maxR) {
             counter++;
         }
     }
-    let ans = linearRegression(logMass, logSize);
-    document.getElementById("fdim").innerHTML = Math.round(ans.slope * 1000) / 1000;
+    return linearRegression(logMass, logSize).slope;
 }
 
 function linearRegression(y, x) {
-
-
 
     let lr = {};
     let n = y.length;

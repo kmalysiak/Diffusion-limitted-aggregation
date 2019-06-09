@@ -22,9 +22,13 @@ devServer: {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
+        use:[ {
           loader: "babel-loader"
-        }
+        }]
+      },
+      {
+        test: /\.worker\.js$/,
+        use: { loader: 'worker-loader' }
       },
       // CSS Files
       {

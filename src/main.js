@@ -8,16 +8,21 @@ let context;
 let canvasSize = new Point(0, 0);
 let seed = new Point(0, 0);
 let maxAggregateRadius;
-let stickProbability = defaultStickProbability;
-let verticalDrift = defaultDrift;
-let horizontalDrift = defaultDrift;
+
+let simulationParameters = {
+    isParamsChanged : false,
+    stickProbability :defaultStickProbability,
+    verticalDrift : defaultDrift,
+    horizontalDrift : defaultDrift
+};
+
 
 
 import * as engine from './engine';
 import * as rand from './rand';
 import { Point } from './commonClasses';
 
-export { context, canvas, canvasSize, seed, horizontalDrift, verticalDrift, stickProbability, maxAggregateRadius };
+export { context, canvas, canvasSize, seed, simulationParameters, maxAggregateRadius };
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -57,28 +62,32 @@ function setAggregationProbability() {
     var slider = document.getElementById("aggregationProbability");
     var output = document.getElementById("aggregationProbabilityValue");
     output.innerHTML = slider.value;
-    stickProbability = slider.value;
+    simulationParameters.stickProbability = slider.value;
+    simulationParameters.isParamsChanged = true;
 }
 
 function setDriftHorizontal() {
     var slider = document.getElementById("driftHorizontal");
     var output = document.getElementById("driftHorizontalValue");
     output.innerHTML = slider.value;
-    horizontalDrift = slider.value;
+    simulationParameters.horizontalDrift = slider.value;
+    simulationParameters.isParamsChanged = true;
 }
 
 function setDriftVertical() {
     var slider = document.getElementById("driftVertical");
     var output = document.getElementById("driftVerticalValue");
     output.innerHTML = slider.value;
-    verticalDrift = slider.value;
+    simulationParameters.verticalDrift = slider.value;
+    simulationParameters.isParamsChanged = true;
 }
 
 function resetDriftVertical() {
     var slider = document.getElementById("driftVertical");
     var output = document.getElementById("driftVerticalValue");
     output.innerHTML = defaultDrift;
-    verticalDrift = defaultDrift;
+    simulationParameters.verticalDrift = defaultDrift;
+    simulationParameters.isParamsChanged = true;
     slider.value = defaultDrift;
 }
 
@@ -86,6 +95,7 @@ function resetDriftHorizontal() {
     var slider = document.getElementById("driftHorizontal");
     var output = document.getElementById("driftHorizontalValue");
     output.innerHTML = defaultDrift;
-    verticalDrift = defaultDrift;
+    simulationParameters.verticalDrift = defaultDrift;
+    simulationParameters.isParamsChanged = true;
     slider.value = defaultDrift;
 }

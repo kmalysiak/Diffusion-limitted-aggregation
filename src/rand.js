@@ -12,6 +12,7 @@ function initRandNum() {
     for (let i = 0; i < randBufferSize; i++) {
         randNum[i] = Math.random();
     }
+
 }
 
 function getRandUniformBool() {
