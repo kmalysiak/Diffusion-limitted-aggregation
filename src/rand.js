@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
-export { initRandNum, getRandUniformBool, getRandJump, getRandUniformCircularPosition }
-import { Point } from './commonClasses';
+export {initRandNum, getRandUniformBool, getRandJump, getRandUniformCircularPosition}
+import {Point} from './commonClasses';
 
 const randBufferSize = 100000;
 let currentRand = 0;
@@ -12,6 +12,7 @@ function initRandNum() {
     for (let i = 0; i < randBufferSize; i++) {
         randNum[i] = Math.random();
     }
+
 }
 
 function getRandUniformBool() {
@@ -49,8 +50,7 @@ function getRandJump(horizontalDrift, verticalDrift) {
 
     if (getRandUniformBool() < 0.5) {
         jump.x = getHorizontalRandJump(horizontalDrift);
-    }
-    else {
+    } else {
         jump.y = getVerticalRandJump(verticalDrift);
     }
     return jump;
