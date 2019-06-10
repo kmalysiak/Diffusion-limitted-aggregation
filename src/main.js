@@ -1,4 +1,8 @@
-'use strict'
+'use strict';
+
+import * as engine from './engine';
+import * as rand from './rand';
+import {Point} from './commonClasses';
 
 const defaultDrift = 0.5;
 const defaultStickProbability = 1;
@@ -10,19 +14,13 @@ let seed = new Point(0, 0);
 let maxAggregateRadius;
 
 let simulationParameters = {
-    isParamsChanged : false,
-    stickProbability :defaultStickProbability,
-    verticalDrift : defaultDrift,
-    horizontalDrift : defaultDrift
+    isParamsChanged: false,
+    stickProbability: defaultStickProbability,
+    verticalDrift: defaultDrift,
+    horizontalDrift: defaultDrift
 };
 
-
-
-import * as engine from './engine';
-import * as rand from './rand';
-import { Point } from './commonClasses';
-
-export { context, canvas, canvasSize, seed, simulationParameters, maxAggregateRadius };
+export {context, canvas, canvasSize, seed, simulationParameters, maxAggregateRadius};
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -36,7 +34,7 @@ function init() {
     context.fillStyle = 'rgba(255, 0, 0, 255)';
     context.clearRect(0, 0, canvasSize.x, canvasSize.y);
     context.arc(canvasSize.x / 2, canvasSize.y / 2, 3, 0, 2 * Math.PI);
-    context.fill()
+    context.fill();
     maxAggregateRadius = Math.floor(Math.sqrt(canvasSize.x * canvasSize.x + canvasSize.y * canvasSize.y));
     rand.initRandNum();
     addHandlers();
@@ -59,32 +57,32 @@ function addHandlers() {
 
 
 function setAggregationProbability() {
-    var slider = document.getElementById("aggregationProbability");
-    var output = document.getElementById("aggregationProbabilityValue");
+    let slider = document.getElementById("aggregationProbability");
+    let output = document.getElementById("aggregationProbabilityValue");
     output.innerHTML = slider.value;
     simulationParameters.stickProbability = slider.value;
     simulationParameters.isParamsChanged = true;
 }
 
 function setDriftHorizontal() {
-    var slider = document.getElementById("driftHorizontal");
-    var output = document.getElementById("driftHorizontalValue");
+    let slider = document.getElementById("driftHorizontal");
+    let output = document.getElementById("driftHorizontalValue");
     output.innerHTML = slider.value;
     simulationParameters.horizontalDrift = slider.value;
     simulationParameters.isParamsChanged = true;
 }
 
 function setDriftVertical() {
-    var slider = document.getElementById("driftVertical");
-    var output = document.getElementById("driftVerticalValue");
+    let slider = document.getElementById("driftVertical");
+    let output = document.getElementById("driftVerticalValue");
     output.innerHTML = slider.value;
     simulationParameters.verticalDrift = slider.value;
     simulationParameters.isParamsChanged = true;
 }
 
 function resetDriftVertical() {
-    var slider = document.getElementById("driftVertical");
-    var output = document.getElementById("driftVerticalValue");
+    let slider = document.getElementById("driftVertical");
+    let output = document.getElementById("driftVerticalValue");
     output.innerHTML = defaultDrift;
     simulationParameters.verticalDrift = defaultDrift;
     simulationParameters.isParamsChanged = true;
@@ -92,8 +90,8 @@ function resetDriftVertical() {
 }
 
 function resetDriftHorizontal() {
-    var slider = document.getElementById("driftHorizontal");
-    var output = document.getElementById("driftHorizontalValue");
+    let slider = document.getElementById("driftHorizontal");
+    let output = document.getElementById("driftHorizontalValue");
     output.innerHTML = defaultDrift;
     simulationParameters.verticalDrift = defaultDrift;
     simulationParameters.isParamsChanged = true;

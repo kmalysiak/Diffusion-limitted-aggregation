@@ -1,14 +1,21 @@
-'use strict'
+'use strict';
 
 let mass;
 
-export { fractalDim2 }
+export {fractalDim2, reset}
 
 const isR2Calculation = false;
+const minRadiusForCalculation = 15;
+const minPointsCountToCalculate = 30;
+
+
+function reset() {
+    mass = undefined;
+}
 
 function fractalDim2(newParticleDist, maxR, maxSize) {
 
-    if(mass === undefined){
+    if (mass === undefined) {
         mass = new Array(maxSize).fill(0);
     }
 
@@ -19,15 +26,16 @@ function fractalDim2(newParticleDist, maxR, maxSize) {
     let logMass = [];
     let counter = 0;
     let totalMass = 0;
-    for (let i = 1; i < maxR; i++) {
+    for (let i = minRadiusForCalculation; i < maxR; i++) {
         if (mass[i] > 0) {
-            totalMass += mass[i]
+            totalMass += mass[i];
             logSize[counter] = Math.log(i);
             logMass[counter] = Math.log(totalMass);
             counter++;
         }
     }
-    return linearRegression(logMass, logSize).slope;
+    if (logSize.length > minPointsCountToCalculate)
+        return linearRegression(logMass, logSize).slope;
 }
 
 function linearRegression(y, x) {

@@ -3,121 +3,117 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>Diffusion limited growth - a numerical similation</title>
-  <meta name="description" content="Numerical simulation of diffusion limitted growth">
-  <meta name="author" content="Krzysztof Małysiak">
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+    <title>Diffusion limited growth - a numerical similation</title>
+    <meta name="description" content="Numerical simulation of diffusion limitted growth">
+    <meta name="author" content="Krzysztof Małysiak">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <div id=content>
-  <div class="data">
-    <p class="desc">Mass</p>
-    <p class="value" id="pts">0</p>
-  </div>
-
-  <div class="data">
-    <p class="desc">Radius</p>
-    <p class="value" id="size">0</p>
-  </div>
-
-  <div class="data">
-    <p class="desc">Frac d:</p>
-    <p class="value" id="fdim">-</p>
-  </div>
-
-  <div class="data">
-    <div class="sliderDescContainer">
-      <p class="sliderDesc"> Drift - North-South</p>
-    </div>
-    <div class="sliderContainer">
-      <input type="range" min="0.42" max="0.58" value="0.5" step="0.001" class="slider" id="driftVertical">
+    <div class="data">
+        <p class="desc">Mass</p>
+        <p class="value" id="pts">0</p>
     </div>
 
-    <div class="sliderDescContainer">
-      <p class="sliderDesc"> South</p>
-      <p class="sliderDesc" id="driftVerticalValue"> 0.5</p>
-      <p class="sliderDesc"> North</p>
+    <div class="data">
+        <p class="desc">Radius</p>
+        <p class="value" id="size">0</p>
     </div>
-  </div>
 
-  <div class="data">
-    <div class="sliderDescContainer">
-      <p class="sliderDesc"> Drift - East-West</p>
+    <div class="data">
+        <p class="desc">Frac d:</p>
+        <p class="value" id="fdim">-</p>
     </div>
-    <div class="sliderContainer">
-      <input type="range" min="0.42" max="0.58" value="0.5" step="0.001" class="slider" id="driftHorizontal">
-    </div>
-    <div class="sliderDescContainer">
-      <p class="sliderDesc"> East</p>
-      <p class="sliderDesc" id="driftHorizontalValue"> 0.5</p>
-      <p class="sliderDesc"> West</p>
-    </div>
-  </div>
 
-  <div class="data">
-    <div class="sliderDescContainer">
-      <p class="sliderDesc"> Stick probability</p>
-    </div>
-    <div class="sliderContainer">
-      <input type="range" min="0.01" max="1" value="1" step="0.01" class="slider" id="aggregationProbability">
-    </div>
-    <div class="sliderDescContainer">
-      <p class="sliderDesc"> 0.5</p>
-      <p class="sliderDesc" id="aggregationProbabilityValue"> 1</p>
-      <p class="sliderDesc"> 1</p>
-    </div>
-  </div>
+    <div class="data">
+        <div class="sliderDescContainer">
+            <p class="sliderDesc"> Drift - North-South</p>
+        </div>
+        <div class="sliderContainer">
+            <input type="range" min="0.42" max="0.58" value="0.5" step="0.001" class="slider" id="driftVertical">
+        </div>
 
-  <div class="btn-group">
-    <button id="btn-start">Start</button>
-    <button id="btn-pause"> Pause</button>
-    <button id="btn-clear"> Clear</button>
-  </div>
+        <div class="sliderDescContainer">
+            <p class="sliderDesc"> South</p>
+            <p class="sliderDesc" id="driftVerticalValue"> 0.5</p>
+            <p class="sliderDesc"> North</p>
+        </div>
+    </div>
 
-  <div style="clear:both"></div>
-  <canvas id="canvas" width="800" height="800"></canvas>
-  <p style="text-align:justify; width:800; color:lightgray">
-    <a download="info.txt" id="downloadlink" style="display: none">Download</a>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mauris ligula, lacinia tristique arcu at, lobortis
-    eleifend diam. Ut in dui eget velit convallis iaculis vel vel leo. Maecenas convallis pharetra malesuada. Mauris
-    nec viverra velit, eu porttitor nisl. In eleifend elit sed pharetra tincidunt. Aenean nec magna a risus molestie
-    malesuada. Nam tempus semper malesuada. Nullam metus nunc, tristique eget dui a, ullamcorper porta ipsum. Morbi ex
-    metus, dictum vitae metus et, maximus molestie massa. Quisque sit amet euismod erat. Nulla nulla lectus, pharetra
-    eget vehicula vitae, vestibulum nec mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna nisl,
-    aliquet sit amet sapien at, egestas volutpat nisi. Sed gravida libero vitae lorem facilisis maximus. Mauris id
-    nibh ut erat sagittis rutrum.
-    Nullam nec arcu viverra, vehicula massa nec, hendrerit tellus. Proin blandit, magna non faucibus molestie, erat
-    orci efficitur metus, sit amet euismod lectus eros et lorem. Lorem ipsum dolor sit amet, consectetur adipiscing
-    elit. Sed a rutrum massa. Sed hendrerit, elit at gravida bibendum, tortor augue faucibus libero, eu egestas nisl
-    dolor non odio. Vestibulum et iaculis lectus, in condimentum nisi. Praesent vitae arcu mi. Duis convallis, eros
-    quis cursus consectetur, nisi dui commodo erat, in tristique augue sapien nec eros. Vestibulum non pretium nisl.
-    Donec feugiat, nulla volutpat pellentesque ornare, enim eros placerat turpis, a mattis lorem quam non justo. Sed
-    pulvinar fringilla pellentesque. Sed varius non nibh non rutrum.
-    Nunc justo mauris, condimentum eu arcu sed, faucibus rhoncus massa. Morbi auctor tempor risus, ut volutpat diam.
-    Cras non nisi luctus, auctor dolor vel, suscipit odio. Suspendisse potenti. Proin tincidunt in orci luctus
-    pretium. Donec tempus, massa facilisis dignissim iaculis, mauris lectus placerat mi, finibus interdum purus diam a
-    risus. Curabitur consectetur suscipit lacus, at venenatis ipsum mattis vel. Fusce fermentum, nisi a pretium
-    semper, eros est porttitor massa, et finibus nisl mauris quis nisi. Nam lacus erat, placerat sit amet quam vitae,
-    molestie pretium tortor. In consectetur velit at ligula porta tincidunt. Cras ultricies non tortor in dignissim.
-    Proin blandit, dolor in condimentum molestie, nisl dolor condimentum sem, quis pretium sapien nisi eu libero.
-    Sed leo ante, elementum eget volutpat nec, rhoncus eu magna. Vestibulum in arcu et justo blandit molestie.
-    Praesent a ex finibus, commodo quam id, euismod nisi. Etiam dictum porttitor congue. Pellentesque rutrum at nunc a
-    porttitor. Aliquam ultrices vulputate tincidunt. Donec dignissim tristique odio, eu accumsan erat. Aenean sodales
-    hendrerit nibh, vel fringilla quam porttitor volutpat. Aenean eleifend dapibus orci eget viverra. Donec blandit
-    orci sed sapien facilisis gravida.
-    Sed quis egestas lorem, id pulvinar neque. Nam vel risus tristique, tincidunt tortor ut, mollis nisl. Nulla
-    feugiat bibendum mattis. Sed tempus elit eget diam molestie pellentesque. Etiam sed lacinia risus. In ut ipsum
-    aliquam, volutpat risus ac, dapibus orci. Vestibulum nec mi dolor. Pellentesque pulvinar eu enim id suscipit. Duis
-    ultricies, sapien et accumsan lacinia, magna est dapibus diam, quis iaculis metus neque ut enim. Ut bibendum
-    bibendum mi at auctor. Vestibulum elementum leo nec vulputate ullamcorper. Donec vel velit sit amet massa suscipit
-    tempor nec viverra diam. Suspendisse sed euismod tortor. Fusce lacinia varius faucibus. Quisque vel ipsum aliquet,
-    dictum elit sed, dictum lorem.
-  </p>
+    <div class="data">
+        <div class="sliderDescContainer">
+            <p class="sliderDesc"> Drift - East-West</p>
+        </div>
+        <div class="sliderContainer">
+            <input type="range" min="0.42" max="0.58" value="0.5" step="0.001" class="slider" id="driftHorizontal">
+        </div>
+        <div class="sliderDescContainer">
+            <p class="sliderDesc"> East</p>
+            <p class="sliderDesc" id="driftHorizontalValue"> 0.5</p>
+            <p class="sliderDesc"> West</p>
+        </div>
+    </div>
 
-  <script type="text/javascript" src="main.js">
-  </script>
+    <div class="data">
+        <div class="sliderDescContainer">
+            <p class="sliderDesc"> Stick probability</p>
+        </div>
+        <div class="sliderContainer">
+            <input type="range" min="0.01" max="1" value="1" step="0.01" class="slider" id="aggregationProbability">
+        </div>
+        <div class="sliderDescContainer">
+            <p class="sliderDesc"> 0.5</p>
+            <p class="sliderDesc" id="aggregationProbabilityValue"> 1</p>
+            <p class="sliderDesc"> 1</p>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button id="btn-start">Start</button>
+        <button id="btn-pause"> Pause</button>
+        <button id="btn-clear"> Clear</button>
+    </div>
+
+    <div style="clear:both"></div>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <div id="description">
+
+        <p>
+            This is a numerical simulation of diffusion limited aggregation growth process. This is a process of a
+            growth of a structure, where building blocks delivery rate is limited by diffusion. The diffusion is here
+            simulated by random walk of particles - more information on that technique can be found at <a
+                href="https://en.wikipedia.org/wiki/Random_walk" target="_blank">Wikipedia</a>.  </br></br>
+            Some more details may be found at
+        <ul>
+            <li><a href="https://en.wikipedia.org/wiki/Diffusion-limited_aggregation" target="_blank">Wikipedia</a>
+                will tell you about physical aspects of the process
+            </li>
+            <li><a href="https://www.youtube.com/watch?v=Cl_Gjj80gPE" target="_blank"> The coding Train </a> shows
+                more illustrative, yet not so efficient implementation of the process
+            </li>
+        </ul>
+        You may play with the simulation by changing some of the parameters with sliders at the top of the page while
+        observing an influence on the aggregate's shape
+
+        <ul>
+            <li>
+                drift North-South / Ease-West - sets the probability of jumps for aggregating particles toward a
+                specified direction
+            </li>
+            <li>Stick probability - sets the probability that a particle with stick to the aggregate once it is about to
+                aggregate
+            </li>
+        </ul>
+
+        </p>
+
+    </div>
+
+
+    <script type="text/javascript" src="main.js">
+    </script>
 </div>
 </body>
 
