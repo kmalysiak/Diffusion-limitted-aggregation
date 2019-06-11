@@ -1,4 +1,4 @@
-# Diffusion Limited Growth
+# Diffusion Limited Aggregation
 
 This project is a numerical simulation of Diffusion Limited Aggregation process (abbrev. as DLA).
 Proces simulates movement of random walking particles and their aggregation on a lattice. Process starts with a seed located at the center.
