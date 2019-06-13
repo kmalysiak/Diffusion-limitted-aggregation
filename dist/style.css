@@ -60,7 +60,9 @@ body {
 }
 
 .sliderDescContainer {
-    padding: 0 10px 0 10px;
+    margin:auto;
+    max-width: 140px;
+    width: 140px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
