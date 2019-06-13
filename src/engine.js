@@ -10,6 +10,7 @@ const seedSize = 2;
 let isStop = false;
 let cdt;
 let coreWorker;
+let status;
 
 let isInit = false;
 coreWorker = new Worker();
@@ -49,12 +50,15 @@ function start() {
     isStop = false;
 
     coreWorker.postMessage('start');
+    status = "Status: Started. Simulation on the run.";
 }
 
 function stopAndClearCanvas() {
     coreWorker.postMessage('stop');
     isStop = true;
     main.context.clearRect(0, 0, main.canvas.width, main.canvas.height);
+    status = "Status: Cleared. Hit start to begin new simulation."
+    main.writeStatus(main.context, status);
     main.context.fillStyle = 'rgba(255, 0, 0, 255)';
     main.context.arc(main.seed.x, main.seed.y, seedSize, 0, 2 * Math.PI);
     main.context.fill();
@@ -62,11 +66,14 @@ function stopAndClearCanvas() {
     document.getElementById("size").innerHTML = '0';
     document.getElementById("fdim").innerHTML = "-";
     cdt = main.context.getImageData(0, 0, main.canvasSize.x, main.canvasSize.y);
+
 }
 
 function pause() {
     coreWorker.postMessage('pause');
     isStop = true;
+    status = "Status: Paused. Hit start to continue simulation.";
+    main.writeStatus(main.context,status);
 }
 
 function drawPixel(point, r, g, b, a, canvasData, canvasSize) {
@@ -79,5 +86,7 @@ function drawPixel(point, r, g, b, a, canvasData, canvasSize) {
 
 function updateCanvas(ctx, canvasData) {
     ctx.putImageData(canvasData, 0, 0);
+    main.writeStatus(ctx,status);
 }
+
 

@@ -20,7 +20,7 @@ let simulationParameters = {
     horizontalDrift: defaultDrift
 };
 
-export {context, canvas, canvasSize, seed, simulationParameters, maxAggregateRadius};
+export {context, canvas, canvasSize, seed, simulationParameters, maxAggregateRadius, writeStatus};
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -35,6 +35,8 @@ function init() {
     context.clearRect(0, 0, canvasSize.x, canvasSize.y);
     context.arc(canvasSize.x / 2, canvasSize.y / 2, 3, 0, 2 * Math.PI);
     context.fill();
+    context.font = "15px Arial";
+    writeStatus(context,"Status: Cleared. Hit start to begin new simulation.");
     maxAggregateRadius = Math.floor(Math.sqrt(canvasSize.x * canvasSize.x + canvasSize.y * canvasSize.y));
     rand.initRandNum();
     addHandlers();
@@ -96,4 +98,9 @@ function resetDriftHorizontal() {
     simulationParameters.verticalDrift = defaultDrift;
     simulationParameters.isParamsChanged = true;
     slider.value = defaultDrift;
+}
+
+function writeStatus(ctx, text){
+    ctx.clearRect(0, 760, 400, 30);
+    ctx.fillText(text, 10, 780);
 }
