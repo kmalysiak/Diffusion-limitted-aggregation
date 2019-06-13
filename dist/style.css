@@ -5,14 +5,20 @@ body {
     background-size: cover;
     font-family: 'Roboto', sans-serif;
 
+
 }
 
-canvas {
-    border-style: solid;
-    border-width: 2px;
-    border-color: black;
-    background-color: rgba(0, 0, 0, 0.6);
+#content {
+    width: 820px;
+    margin: auto;
+    text-align: center;
+}
 
+.ctrls{
+    margin: auto;
+    padding: 0;
+    display: inline-block;
+    overflow: hidden;
 }
 
 .data {
@@ -20,27 +26,41 @@ canvas {
     margin: 3px;
     text-align: center;
     background-color: rgba(204, 204, 204, 0.3);
-    padding: 10px;
+    padding: 0px;
     color: lightgray;
-
+    height: 84px;
+    max-height: 84px;
+    width:65px;
+    max-width: 65px;
 }
 
 .desc {
-    margin: 0 0 25px;
-
+    margin: 5px 0 25px 0;
 }
 
 .value {
     margin: 0;
     padding: 0;
 }
+.sliders{
+    float: left;
+    margin: 3px;
+    text-align: center;
+    background-color: rgba(204, 204, 204, 0.3);
+    color: lightgray;
+    height: 84px;
+    max-height: 84px;
+    width:155px;
+    max-width: 155px;
+}
 
-#content {
-    width: 1200px;
-    margin: auto;
+.sliderDesc {
+    margin: 5px 0 5px 0;
+    padding: 0;
 }
 
 .sliderDescContainer {
+    padding: 0 10px 0 10px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -48,10 +68,25 @@ canvas {
     align-items: center;
 }
 
-.sliderDesc {
-    text-align: center;
+.slider{
+    width: 140px;
+}
+
+.sliderValueLabel {
     margin: 0;
     padding: 0;
+}
+
+
+canvas {
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    background-color: rgba(0, 0, 0, 0.6);
+    margin: auto;
+    padding: 0;
+    display: block;
+
 }
 
 .btn-group {
@@ -66,6 +101,7 @@ canvas {
     padding: 5px 5px;
     cursor: pointer;
     width: 88px;
+    max-width: 88px;
     display: block;
 }
 
@@ -73,6 +109,7 @@ canvas {
     border: 2px solid rgba(204, 204, 204, 0.3);
     background-color: rgba(255, 0, 0, 0.7);
     width: 88px;
+    max-width: 88px;
 }
 
 .btn-group button:not(:last-child) {
@@ -89,6 +126,8 @@ canvas {
 #description {
     color: lightgray;
     width: 800px;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 a {
