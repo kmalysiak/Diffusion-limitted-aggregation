@@ -10,6 +10,7 @@ const particlesPerMessage = 10;
 
 let currentMaxRadius = 0;
 let maxAggregateRadiusAllowed = 400;
+// maxAggregateRadius = Math.floor(Math.sqrt(canvasSize.x * canvasSize.x + canvasSize.y * canvasSize.y));
 let isStop = false;
 let bigTable;
 let seed = new Point(400, 400);
@@ -25,27 +26,29 @@ let canvasSize = new Point(800, 800);
 onmessage = function (msg) {
     if (msg.data === 'init')
         runInit();
-
-    if (msg.data === 'start') {
+    else if (msg.data === 'start') {
         isStop = false;
         runSimulation();
-    }
-
-    if (msg.data === 'stop') {
+    } else if (msg.data === 'stop') {
         isStop = true;
         runInit();
-    }
-
-    if (msg.data === 'stop') {
+    } else if (msg.data === 'stop') {
         isStop = true;
-    }
-    if (msg.data === 'continue' && !isStop)
+    } else if (msg.data === 'continue' && !isStop)
         runSimulation();
+
     if (Array.isArray(msg.data)) {
         if (msg.data[0] === 'paramsUpdate') {
-            verticalDrift = msg.data[1].verticalDrift;
-            horizontalDrift = msg.data[1].horizontalDrift;
-            stickProbability = msg.data[1].stickProbability;
+            verticalDrift = msg.data[1].driftVertical;
+            horizontalDrift = msg.data[1].driftHorizontal;
+            stickProbability = msg.data[1].aggregationProbability;
+        } else if (msg.data[0] === 'init') {
+            canvasSize = msg.data[1];
+            seed = msg.data[2];
+            horizontalDrift = msg.data[3];
+            verticalDrift = msg.data[4];
+            stickProbability = msg.data[5];
+            // maxAggregateRadius = Math.floor(Math.sqrt(canvasSize.x * canvasSize.x + canvasSize.y * canvasSize.y));
         }
     }
 };

@@ -2,9 +2,8 @@
 
 export {start, pause, stopAndClearCanvas};
 import * as main from './main';
+import * as canvasCommon from './canvasCommon'
 import Worker from 'worker-loader!./core.js'
-
-const seedSize = 2;
 
 
 let isStop = false;
@@ -19,11 +18,11 @@ coreWorker.onmessage = function (e) {
     if (isStop) return;
     let partList = JSON.parse(e.data.part);
     for (let i = 0; i < partList.length; i++) {
-        drawPixel(partList[i], 255, 0, 0, 255, cdt, main.canvasSize)
+        drawPixel(partList[i], cdt, main.canvasSize)
 
     }
     updateCanvas(main.context, cdt);
-    // console.log(e.data.aggregatedParticlesCount);
+
     document.getElementById("pts").innerHTML = e.data.aggregatedParticlesCount;
     document.getElementById("size").innerHTML = e.data.currentMaxRadius;
     if (e.data.fd !== undefined)
@@ -56,12 +55,10 @@ function start() {
 function stopAndClearCanvas() {
     coreWorker.postMessage('stop');
     isStop = true;
-    main.context.clearRect(0, 0, main.canvas.width, main.canvas.height);
-    status = "Status: Cleared. Hit start to begin new simulation."
-    main.writeStatus(main.context, status);
-    main.context.fillStyle = 'rgba(255, 0, 0, 255)';
-    main.context.arc(main.seed.x, main.seed.y, seedSize, 0, 2 * Math.PI);
-    main.context.fill();
+    canvasCommon.resetCanvas(main.context, main.canvas, main.seed, main.seedSize);
+    status = "Status: Cleared. Hit start to begin new simulation.";
+    canvasCommon.writeStatus(main.context, status);
+
     document.getElementById("pts").innerHTML = '0';
     document.getElementById("size").innerHTML = '0';
     document.getElementById("fdim").innerHTML = "-";
@@ -73,20 +70,18 @@ function pause() {
     coreWorker.postMessage('pause');
     isStop = true;
     status = "Status: Paused. Hit start to continue simulation.";
-    main.writeStatus(main.context,status);
+    canvasCommon.writeStatus(main.context, status);
 }
 
-function drawPixel(point, r, g, b, a, canvasData, canvasSize) {
+function drawPixel(point, canvasData, canvasSize) {
     let index = (point.x + point.y * canvasSize.x) * 4;
-    canvasData.data[index + 0] = r;
-    canvasData.data[index + 1] = g;
-    canvasData.data[index + 2] = b;
-    canvasData.data[index + 3] = a;
+    canvasData.data[index + 0] = 255;
+    canvasData.data[index + 3] = 255;
 }
 
 function updateCanvas(ctx, canvasData) {
     ctx.putImageData(canvasData, 0, 0);
-    main.writeStatus(ctx,status);
+    canvasCommon.writeStatus(ctx, status);
 }
 
 
