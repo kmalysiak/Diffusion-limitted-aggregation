@@ -40,6 +40,10 @@ function start() {
     if (!isInit) {
         cdt = main.context.getImageData(0, 0, main.canvasSize.x, main.canvasSize.y);
         coreWorker.postMessage('init');
+
+        coreWorker.postMessage(['init', {seed : main.seed, canvasSize: main.canvasSize}]);
+        coreWorker.postMessage(['paramsUpdate', main.simulationParameters]);
+
         if (main.simulationParameters.isParamsChanged) {
             coreWorker.postMessage(['paramsUpdate', main.simulationParameters]);
             main.simulationParameters.isParamsChanged = false;

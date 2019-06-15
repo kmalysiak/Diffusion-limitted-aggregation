@@ -9,19 +9,18 @@ const maxStepsForParticle = 100000;
 const particlesPerMessage = 10;
 
 let currentMaxRadius = 0;
-let maxAggregateRadiusAllowed = 400;
-// maxAggregateRadius = Math.floor(Math.sqrt(canvasSize.x * canvasSize.x + canvasSize.y * canvasSize.y));
+let maxAggregateRadiusAllowed;
 let isStop = false;
 let bigTable;
-let seed = new Point(400, 400);
-let horizontalDrift = 0.5;
-let verticalDrift = 0.5;
-let stickProbability = 1;
+let seed;
+let horizontalDrift;
+let verticalDrift;
+let stickProbability;
 
 let aggregatedParticlesCount = 0;
 let aggregatedPointRadii = [];
 let aggregatedParticlesList = [];
-let canvasSize = new Point(800, 800);
+let canvasSize;
 
 onmessage = function (msg) {
     if (msg.data === 'init')
@@ -36,19 +35,17 @@ onmessage = function (msg) {
         isStop = true;
     } else if (msg.data === 'continue' && !isStop)
         runSimulation();
-
-    if (Array.isArray(msg.data)) {
+    else if (Array.isArray(msg.data)) {
         if (msg.data[0] === 'paramsUpdate') {
             verticalDrift = msg.data[1].driftVertical;
             horizontalDrift = msg.data[1].driftHorizontal;
             stickProbability = msg.data[1].aggregationProbability;
         } else if (msg.data[0] === 'init') {
-            canvasSize = msg.data[1];
-            seed = msg.data[2];
-            horizontalDrift = msg.data[3];
-            verticalDrift = msg.data[4];
-            stickProbability = msg.data[5];
-            // maxAggregateRadius = Math.floor(Math.sqrt(canvasSize.x * canvasSize.x + canvasSize.y * canvasSize.y));
+            canvasSize = msg.data[1].canvasSize;
+            seed = msg.data[1].seed;
+            maxAggregateRadiusAllowed = Math.floor(0.5 * Math.sqrt(canvasSize.x * canvasSize.x + canvasSize.y * canvasSize.y));
+            runInit();
+
         }
     }
 };
@@ -58,15 +55,14 @@ function runInit() {
     aggregatedParticlesList = [];
     fractalDim.reset();
     rand.initRandNum();
-    let canvasSize = new Point(800, 800);
-    bigTable = new Array(800 * 800).fill(0);
+    bigTable = new Array(canvasSize.x * canvasSize.y).fill(0);
     currentMaxRadius = 0;
     aggregatedParticlesCount = 0;
 
-    drawPixel(new Point(400, 400), canvasSize);
-    drawPixel(new Point(401, 401), canvasSize);
-    drawPixel(new Point(400, 401), canvasSize);
-    drawPixel(new Point(401, 400), canvasSize);
+    drawPixel(new Point(seed.x, seed.y), canvasSize);
+    drawPixel(new Point(seed.x+1, seed.y+1), canvasSize);
+    drawPixel(new Point(seed.x, seed.y+1), canvasSize);
+    drawPixel(new Point(seed.x+1, seed.y), canvasSize);
 }
 
 

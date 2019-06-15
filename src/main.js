@@ -80,7 +80,7 @@ function doParameterChange(sliderId, sliderOutputId) {
 function doParameterToDefault(sliderId, sliderOutputId) {
     let slider = document.getElementById(sliderId);
     let output = document.getElementById(sliderOutputId);
-    output.innerHTML = defaultDrift;
+    output.innerHTML = defaultDrift.toString();
     simulationParameters.isParamsChanged = true;
     slider.value = defaultDrift;
     return defaultDrift;
