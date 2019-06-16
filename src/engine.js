@@ -1,5 +1,7 @@
 'use strict';
 
+import {canvas} from "./main";
+
 export {start, pause, stopAndClearCanvas};
 import * as main from './main';
 import * as canvasCommon from './canvasCommon'
@@ -53,14 +55,14 @@ function start() {
     isStop = false;
 
     coreWorker.postMessage('start');
-    status = "Status: Started. Simulation on the run.";
+    status = canvasCommon.messages.onStart;
 }
 
 function stopAndClearCanvas() {
     coreWorker.postMessage('stop');
     isStop = true;
     canvasCommon.resetCanvas(main.context, main.canvas, main.seed, main.seedSize);
-    status = "Status: Cleared. Hit start to begin new simulation.";
+    status = canvasCommon.messages.onClear;
     canvasCommon.writeStatus(main.context, status);
 
     document.getElementById("pts").innerHTML = '0';
@@ -73,7 +75,7 @@ function stopAndClearCanvas() {
 function pause() {
     coreWorker.postMessage('pause');
     isStop = true;
-    status = "Status: Paused. Hit start to continue simulation.";
+    status = canvasCommon.messages.onPause;
     canvasCommon.writeStatus(main.context, status);
 }
 

@@ -9,7 +9,8 @@ import {Point} from './commonClasses';
 const defaultDrift = 0.5;
 const defaultStickProbability = 1;
 const seedSize = 3;
-const drawColor = 'rgba(255, 0, 0, 255)';
+const fillStyle = 'rgba(255, 0, 0, 255)';
+const font =  "15px Arial";
 
 let canvas;
 let context;
@@ -24,7 +25,7 @@ let simulationParameters = {
     driftHorizontal: defaultDrift
 };
 
-export {context, canvas, canvasSize, seed, seedSize, simulationParameters, drawColor};
+export {context, canvas, canvasSize, seed, seedSize, simulationParameters, fillStyle};
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -34,10 +35,10 @@ function init() {
     seed = new Point(Math.floor(Math.floor(canvasSize.x / 2)), Math.floor(canvasSize.y / 2));
 
     context = canvas.getContext("2d");
-    context.fillStyle = drawColor;
-    context.font = "15px Arial";
+    context.fillStyle = fillStyle;
+    context.font = font;
     canvasCommon.resetCanvas(context, canvas, seed, seedSize, seedSize);
-    canvasCommon.writeStatus(context, "Status: Cleared. Hit start to begin new simulation.");
+    canvasCommon.writeStatus(context, canvasCommon.messages.onClear);
 
     rand.initRandNum();
     addHandlers();
