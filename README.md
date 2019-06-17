@@ -1,10 +1,11 @@
 # Diffusion Limited Aggregation
 
-This project is a numerical simulation of Diffusion Limited Aggregation process (abbrev. as DLA).
-Proces simulates movement of random walking particles and their aggregation on a lattice. Process starts with a seed located at the center.
+This project is a numerical simulation of Diffusion Limited Aggregation process (abbrev. as DLA). It simulates movement of random walking particles (aka. Brownian Particle) and their aggregation on a lattice. Process starts with a seed located at the center.
 A particle enters the scene and starts random walking until it encounters the seed. It then gets immobilised and another particle
 is placed and allowed to random walk. Once it encounters the seed or a previously aggregated particles it aggregates and becomes
-immobilised. Process repeats what leads to growth of an aggregate with fractal dimension approx. 1.6.
+immobilised. Process repeats what leads to growth of an aggregate with fractal dimension approx. 1.6. 
+
+Some expressive video that may help you to better understant the process may be found [here](https://www.youtube.com/watch?v=I4VAIkrY4yw) on YouTube.
 
 ## Getting Started
 
@@ -24,34 +25,31 @@ immobilised. Process repeats what leads to growth of an aggregate with fractal d
   
  * project should be ready to be opened easily with WebStorm IDE or Visual Studio Code;
 
-### Running
+### Building
 
 * type in console (or directly from IDE)
   ```
   npm run build
   ```
-  this will start webpack in the watch-mode - all the changes to source files will be automatically 
-* run from
+  this will start webpack in the watch mode - any change to source files will triger automatic webpack build to `dist` folder
 
-```console
-webpack-dev-server
-```
+### Deploy
 
-to start a webpack-dev-server for easy development. To a running instance of dev-server you can attach a debug from Visual Studio for real-time debug / breakpoint / check variables.
+* content of the `dist` directory can be deployed on the chosen web server
 
-Run
+* for local tests or development run from console of IDE
 
-```console
-npm run-script build
-```
-
-to build a project into deployment folder and keep webpack running in a mode of constant check of changes to source files and real-time on-change deployment.
+  ```
+  webpack-dev-server
+  ```
+  this will start the instance of web server at `localhost:9000`; server is started at watch mode - any changes to sources will cause webpack build and redeploy on the server; note that to this instance a debugger from WebStorm or VisualStudioCode can be attached; for the debugging purposes I recommend WebStorm as this seems to be the only IDE capable of debugging web workers.
 
 ## Contributing
+Leave a message if you want to contribute.
 
 ## Authors
 
-Krzysztof Małysiak
+Krzysztof Małysiak - this project has been development in my limited free time to have some fun with `JS`.
 
 ## License
 
@@ -76,3 +74,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ## Acknowledgments
+
+I would like to acknowledge Marjin Haverbeke for his outstanding book (Eloqunet JavaScript)[https://eloquentjavascript.net/] reading of which was pure pleasure and well inspiring.
+
