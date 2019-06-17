@@ -10,15 +10,28 @@ immobilised. Process repeats what leads to growth of an aggregate with fractal d
 
 ### Installing
 
-* download repo
-* install node
-* install webpack
-* install babel
-* install webpack-dev-server for convenient debug
+* clone repository to a selected local folder
+* install [Node.js](https://nodejs.org/en/)
+* open console and cd to the repository folder
 
-## Development
+* run the following command to install necessary packages
+  
+  ```
+  npm install 
+  ```
+  
+  most notably webpack, babel and webpack-dev-server will be installed and all necessary dependencies 
+  
+ * project should be ready to be opened easily with WebStorm IDE or Visual Studio Code;
 
-Run
+### Running
+
+* type in console (or directly from IDE)
+  ```
+  npm run build
+  ```
+  this will start webpack in the watch-mode - all the changes to source files will be automatically 
+* run from
 
 ```console
 webpack-dev-server
