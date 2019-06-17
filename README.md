@@ -1,3 +1,6 @@
+
+![](https://img.shields.io/badge/BROWSER-SUPPORTED-brightgreen.svg)
+
 # Diffusion Limited Aggregation
 
 This project is a numerical simulation of Diffusion Limited Aggregation process (abbrev. as DLA). It simulates movement of random walking particles (aka. Brownian Particle) and their aggregation on a lattice. Process starts with a seed located at the center.
