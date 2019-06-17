@@ -17,7 +17,6 @@ Some expressive video that may help you to better understant the process may be 
 * clone repository to a selected local folder
 * install [Node.js](https://nodejs.org/en/)
 * open console and cd to the repository folder
-
 * run the following command to install necessary packages
   
   ```
@@ -39,12 +38,13 @@ Some expressive video that may help you to better understant the process may be 
 ### Deploy
 
 * content of the `dist` directory can be deployed on the chosen web server
-
+* project is using web-workers, runs well on most modern web-browsers, yet some older browsers may not be supported
 * for local tests or development run from console of IDE
 
   ```
   webpack-dev-server
   ```
+  
   this will start the instance of web server at `localhost:9000`; server is started at watch mode - any changes to sources will cause webpack build and redeploy on the server; note that to this instance a debugger from WebStorm or VisualStudioCode can be attached; for the debugging purposes I recommend WebStorm as this seems to be the only IDE capable of debugging web workers.
 
 ## Contributing
