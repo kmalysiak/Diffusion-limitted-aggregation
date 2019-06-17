@@ -12,6 +12,10 @@ Some expressive video that may help you to better understant the process may be 
 
 ## Getting Started
 
+### Working instance
+
+Check the working instance of the simulation [here](http://kmalysiak.pl/demos/DLA/).
+
 ### Installing
 
 * clone repository to a selected local folder
