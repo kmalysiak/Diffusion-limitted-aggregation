@@ -60,9 +60,9 @@ function runInit() {
     aggregatedParticlesCount = 0;
 
     drawPixel(new Point(seed.x, seed.y), canvasSize);
-    drawPixel(new Point(seed.x+1, seed.y+1), canvasSize);
-    drawPixel(new Point(seed.x, seed.y+1), canvasSize);
-    drawPixel(new Point(seed.x+1, seed.y), canvasSize);
+    drawPixel(new Point(seed.x + 1, seed.y + 1), canvasSize);
+    drawPixel(new Point(seed.x, seed.y + 1), canvasSize);
+    drawPixel(new Point(seed.x + 1, seed.y), canvasSize);
 }
 
 

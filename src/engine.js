@@ -1,11 +1,10 @@
 'use strict';
 
-import {canvas} from "./main";
-
-export {start, pause, stopAndClearCanvas};
-import * as main from './main';
+import * as main from "./main";
 import * as canvasCommon from './canvasCommon'
 import Worker from 'worker-loader!./core.js'
+
+export {start, pause, stopAndClearCanvas};
 
 
 let isStop = false;
@@ -43,7 +42,7 @@ function start() {
         cdt = main.context.getImageData(0, 0, main.canvasSize.x, main.canvasSize.y);
         coreWorker.postMessage('init');
 
-        coreWorker.postMessage(['init', {seed : main.seed, canvasSize: main.canvasSize}]);
+        coreWorker.postMessage(['init', {seed: main.seed, canvasSize: main.canvasSize}]);
         coreWorker.postMessage(['paramsUpdate', main.simulationParameters]);
 
         if (main.simulationParameters.isParamsChanged) {

@@ -10,7 +10,7 @@ const defaultDrift = 0.5;
 const defaultStickProbability = 1;
 const seedSize = 3;
 const fillStyle = 'rgba(255, 0, 0, 255)';
-const font =  "15px Arial";
+const font = "15px Arial";
 
 let canvas;
 let context;

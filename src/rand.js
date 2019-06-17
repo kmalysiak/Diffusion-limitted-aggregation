@@ -12,7 +12,6 @@ function initRandNum() {
     for (let i = 0; i < randBufferSize; i++) {
         randNum[i] = Math.random();
     }
-
 }
 
 function getRandUniformBool() {
@@ -31,7 +30,6 @@ function getRandUniformCircularPosition(radius, seed) {
     let randRadian = getRandUniformRadian();
     return new Point(Math.floor(radius * Math.cos(randRadian)) + seed.x, Math.floor(radius * Math.sin(randRadian)) + seed.y);
 }
-
 
 function getHorizontalRandJump(horizontalDrift) {
     if (getRandUniformBool() > horizontalDrift) return unitJump;
