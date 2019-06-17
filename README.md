@@ -75,5 +75,5 @@ SOFTWARE.
 
 ## Acknowledgments
 
-I would like to acknowledge Marjin Haverbeke for his outstanding book (Eloqunet JavaScript)[https://eloquentjavascript.net/] reading of which was pure pleasure and well inspiring.
+I would like to acknowledge Marjin Haverbeke for his outstanding book [Eloqunet JavaScript](https://eloquentjavascript.net/) reading of which was pure pleasure and well inspiring.
 
